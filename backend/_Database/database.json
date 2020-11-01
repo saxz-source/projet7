@@ -1,0 +1,11 @@
+{
+    "dev": {
+        "host": "localhost",
+        "user": "root",
+        "password": "lala",
+        "database": "groupomania",
+        "driver": "mysql",
+        "multipleStatements": true
+    }
+}
+
