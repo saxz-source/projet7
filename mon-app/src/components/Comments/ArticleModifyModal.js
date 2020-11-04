@@ -80,7 +80,7 @@ const ArticleModifyModal = (props) => {
                     {text &&
                         <>
                             <label htmlFor="text">Texte</label>
-                            <input type="text" name="text" value={text} onChange={handleText} />
+                            <textarea type="text" name="text" value={text} onChange={handleText} className="textareaModif" > </textarea>
                         </>}
 
                 </ModalBody>

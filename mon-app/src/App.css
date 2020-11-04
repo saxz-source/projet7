@@ -400,6 +400,12 @@ justify-content: center;
   max-width: 500px;
 }
 
+.textareaModif {
+  width: 100%;
+  height:100px;
+  max-height: 500px;
+}
+
 /* buttons*/
 .iconButton {
   font-size : 1em;
@@ -471,12 +477,6 @@ footer {
   .oneArticleSection{
     padding: 0;
   }
-
-
-
-
-  
-
 }
 
 @media screen and (min-width: 576px) {
@@ -489,17 +489,6 @@ footer {
   
 }
 
-@media screen and (min-width: 768px) {
-
-}
-
-@media screen and (min-width: 992px) {
-
-}
-
-@media screen and (min-width: 1200px) {
-
-}
 
 
 
