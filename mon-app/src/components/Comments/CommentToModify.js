@@ -5,7 +5,6 @@ const CommentToModify = (props) => {
 
 
     const [comment_content, setComment_content] = useState(props.value)
-
     const handleModifComment = (e) => setComment_content(e.target.value)
 
     const handleSendNewComment = () => {

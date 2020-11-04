@@ -30,7 +30,13 @@ const LoginForm = () => {
                 setLoggedIn(true)
             })
             .catch(res => {
-                setMessage(res.response.data.message)
+                try {
+                    if (!res.response) setMessage("Pas de connexion serveur. Vérifiez votre accès au réseau.")
+                    setMessage(res.response.data.message)
+                }
+                catch (e) {
+                    console.log(e)
+                }
             })
     }
 

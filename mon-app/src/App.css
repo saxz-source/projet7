@@ -433,7 +433,12 @@ footer {
 }
 
 
-
+/**Error***/
+.errorDiv {
+  color:white;
+  font-size: 1.2em;
+  padding:50px 15px;
+}
 
 
 @media screen and (max-width: 576px) {

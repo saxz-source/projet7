@@ -9,6 +9,7 @@ import PostTextPage from "../Pages/PostTextPage";
 import ArticleWithCommentsPage from '../Pages/ArticleWithCommentsPage';
 import PersonPage from '../Pages/PersonPage';
 import ErrorPage from "../Pages/ErrorPage";
+import ErrorServerPage from '../Pages/ErrorServerPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/post/text" component={PostTextPage} />
           <Route exact path="/post/media" component={PostMediaPage} />
           <Route exact path="/post/:id" component={PersonPage}/>
+          <Route exact path="/error-server" component={ErrorServerPage}/>
           <Route component={ErrorPage}/>
         </Switch>
       </BrowserRouter>

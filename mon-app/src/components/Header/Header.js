@@ -12,7 +12,14 @@ const Header = () => {
     useEffect(() => {
         API.get(`/auth/home`)
             .then((res) => setFullName(res.data.fullName))
-            .catch((error) => { if (error.response.status === 401) setLoggedIn(false) })
+            .catch((error) => {
+                try {
+                    if (!error.response) setLoggedIn(false)
+                    if (error.response.status === 401) setLoggedIn(false)
+                } catch (error) {
+                    console.log(error)
+                }
+            })
     }, []);
 
 

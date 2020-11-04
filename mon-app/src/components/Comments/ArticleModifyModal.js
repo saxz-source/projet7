@@ -10,6 +10,8 @@ import API from "../../utils/Api";
 
 const ArticleModifyModal = (props) => {
 
+    const [error, setError] = useState("")
+
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
 
@@ -43,7 +45,15 @@ const ArticleModifyModal = (props) => {
                 handleClose();
                 props.handleModif()
             };
-        }).catch()
+        }).catch((err) => {
+            try {
+                if (!err.response) return setError("Connexion avec le serveur perdu. Vérifiez votre accès réseau")
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+        )
     }
 
 
@@ -75,6 +85,7 @@ const ArticleModifyModal = (props) => {
 
                 </ModalBody>
                 <ModalFooter>
+                    {error && <div className="errorDiv">{error}</div>}
                     <button onClick={() => props.handleModif()}> Annuler</button>
                     <button onClick={handleSendModifs}>Modifier</button>
                 </ModalFooter>

@@ -4,7 +4,7 @@ import ImageFeed from '../Home/ImageFeed'
 import CommentView from '../Home/CommentView'
 import { Link } from "react-router-dom"
 import Loader from "../Loader"
-import Error from "../Error"
+import Error from "../Error/Error404"
 
 
 const Person = (props) => {
@@ -14,8 +14,9 @@ const Person = (props) => {
     const [see, setSee] = useState("");
     const [moderate, setModerate] = useState("")
     let [pageNumber, setPageNumber] = useState(1)
+    const [hasMore, setHasMore] = useState(false)
     const [error, setError] = useState("")
-
+    const [serverError, setServerError] = useState("")
 
     useEffect(() => {
         setLoading(true)
@@ -23,7 +24,7 @@ const Person = (props) => {
             API({
                 url: `/posts/user/${props.userId}`,
                 method: "GET",
-                params : {page : pageNumber}
+                params: { page: pageNumber }
             })
                 .then((res) => {
                     if (res.status === 200) {
@@ -32,32 +33,42 @@ const Person = (props) => {
                         })
                         setSee(res.data.userId)
                         setModerate(res.data.role)
+                        setHasMore(res.data.result.length > 0)
                     }
                 })
-                .catch((err) => err.response.status === 404 && setError(404))
-        };    
+                .catch((err) => {
+                    try {
+                        if (!err.response) return setServerError("Connexion avec le serveur perdu. Vérifiez votre accès réseau")
+                        if (err.response.status === 404) setError(404)
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                })
+        };
         displayPersonFeed();
         setLoading(false)
     }, [props.userId, pageNumber])
-
 
     const observer = useRef()
     const lastPersonRef = useCallback(element => {
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) setPageNumber(prevPageNumber => prevPageNumber + 1)
+            if (entries[0].isIntersecting && hasMore) setPageNumber(prevPageNumber => prevPageNumber + 1)
         })
         if (element) observer.current.observe(element)
-    }, [])
+    }, [hasMore])
+
+    console.log(personArray)
 
     if (error === 404) return <Error />
-
-        return (
-            loading ? <Loader/> :
+    return (
+        loading ? <Loader /> :
             <section className="col-12 feedSection">
-                {personArray.map((elt, index) =>
+                {serverError && <div className="errorDiv">{error}</div>}
+                {personArray.map((elt) =>
                     <article
-                    ref={elt.length !== index + 1 ? lastPersonRef : null}
+                        ref={lastPersonRef}
                         key={elt.id}
                         className={`col-11 col-md-8 col-lg-6 posts`}
                         style={
@@ -86,8 +97,8 @@ const Person = (props) => {
                     </article>
                 )}
             </section>
-        )
-    
+    )
+
 }
 
 export default Person

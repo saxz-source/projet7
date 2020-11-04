@@ -5,6 +5,7 @@ const path = require('path');
 const mysql =require('mysql');
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet")
 
 dotenv.config({path: "./.env"});
 
@@ -26,59 +27,6 @@ db.connect(function(err) {
     console.log("Connected!");
 })
 
-
-/*
-    db.query("CREATE DATABASE IF NOT EXISTS groupomania", (err, result) => {
-      if (err) throw err;
-      console.log("Database created");
-    });
- 
-      db.query(`CREATE TABLE IF NOT EXISTS users(
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        email VARCHAR(50) NOT NULL,
-        firstName VARCHAR(20) NOT NULL,
-        lastName VARCHAR(30) NOT NULL,
-        password VARCHAR(100) NOT NULL,
-        fullName VARCHAR(51) NOT NULL,
-        role VARCHAR(5),
-        PRIMARY KEY (id)
-    )`, (err, result) => {
-        if (err) throw err;
-        console.log("table USERS created");
-    });  
-
-    db.query(`CREATE TABLE IF NOT EXISTS posts(
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        id_author INT NOT NULL,
-        date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        title TINYTEXT NOT NULL,
-        category VARCHAR(10) NOT NULL,
-        content TEXT,
-        media VARCHAR(100),
-        comments_number INT,
-        visibility TINYINT NOT NULL DEFAULT 1,
-        PRIMARY KEY (id)
-    )`, (err, result) => {
-        if (err) throw err;
-        console.log("table POSTS created");
-    }); 
-
-    db.query(`CREATE TABLE IF NOT EXISTS comments(
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        id_commentAuthor INT NOT NULL,
-        id_post INT NOT NULL,
-        date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        comment_content VARCHAR(500) NOT NULL ,
-        visibility TINYINT NOT NULL DEFAULT 1,
-        PRIMARY KEY (id)
-    )`, (err, result) => {
-        if (err) throw err;
-        console.log("table COMMENTS created");
-    });
-    
-  });
-*/
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -88,6 +36,8 @@ app.use((req, res, next) => {
 });
 
 app.options('http://localhost:3000', cors());
+
+app.use(helmet())
 
 app.use(cookieParser());
 

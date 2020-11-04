@@ -6,9 +6,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const HideComment = (props) => {
 
-
     let visibility = props.visibility;
-console.log(visibility)
 
     const handleHide = (e) => {
         e.preventDefault();
@@ -24,7 +22,14 @@ console.log(visibility)
             if (res.status === 200) props.handleChange()
 
         })
-            .catch()
+            .catch((err) => {
+                try {
+                    if (!err.response) console.log(err)
+                }
+                catch (e) {
+                    console.log(e)
+                }
+            })
     }
 
 
@@ -32,11 +37,11 @@ console.log(visibility)
         visibility === 1 ?
             <button onClick={handleHide} className="iconButton" aria-label="masquer ce post">
                 <FontAwesomeIcon icon={faEyeSlash} />
-        </button>
+            </button>
             :
             <button onClick={handleHide} className="iconButton" aria-label="démasquer ce post">
                 <FontAwesomeIcon icon={faEye} />
-        </button>
+            </button>
     )
 }
 

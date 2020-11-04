@@ -3,7 +3,7 @@ const router = express.Router();
 const postsCtrl = require('../controllers/posts');
 const multer = require('../middleware/multer-config');
 const secure = require("../middleware/secure");
-const privilege = require("../middleware/privileges")
+const privilege = require("../middleware/privileges");
 
 router.get("/user/:id", secure, privilege, postsCtrl.getPersonPost);
 router.get('/media', secure, privilege, postsCtrl.getMediaPost);

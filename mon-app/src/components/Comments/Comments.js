@@ -49,66 +49,69 @@ const Comments = (props) => {
                 }
             })
             .catch(() => console.log("upload raté"))
-            setLoading(false)
+        setLoading(false)
     }, [props.articleId, change]);
 
 
     return (
 
-        loading ? <Loader/> :
-        <section className="col-12 commentSection">
-            <WriteAComment articleId={props.articleId} handleChange={handleChange} commentsNb={commentsArray.map((co) => co.comments_number)} />
-            {commentsArray.map((com) =>
-                <article className="col-11 col-md-8 col-lg-6 commentPiece"
-                    key={com.id}
-                    style={{
-                        display: (com.visibility === 1
-                            || see === com.id_commentAuthor
-                            || moderate === "mod")
-                            ? "block" : "none", background: com.visibility === 2 && "grey"
-                    }}
-                >
-                    <header>
-                        <div className="col-12 handleButtons">
-                            {(see === com.id_commentAuthor || moderate === "mod") &&
-                                <>
-                                    <DeleteComment
+        loading ? <Loader /> :
+            <section className="col-12 commentSection">
+                <WriteAComment articleId={props.articleId} handleChange={handleChange} commentsNb={commentsArray.map((co) => co.comments_number)} />
+                {commentsArray.map((com) =>
+                    <article className="col-11 col-md-8 col-lg-6 commentPiece"
+                        key={com.id}
+                        style={{
+                            display: (com.visibility === 1
+                                || see === com.id_commentAuthor
+                                || moderate === "mod")
+                                ? "block" : "none", background: com.visibility === 2 && "grey"
+                        }}
+                    >
+                        <header>
+                            <div className="col-12 handleButtons">
+                                {(see === com.id_commentAuthor || moderate === "mod") &&
+                                    <>
+                                        <DeleteComment
+                                            commentId={com.id}
+                                            articleId={props.articleId}
+                                            commentsNb={com.comments_number}
+                                            handleChange={handleChange}
+                                        />
+                                        <ModifyComment
+                                            commentId={com.id}
+                                            handleModif={handleModif}
+                                        />
+                                    </>
+                                }
+                                {moderate === "mod" &&
+                                    <HideComment
                                         commentId={com.id}
-                                        articleId={props.articleId}
-                                        commentsNb={com.comments_number}
+                                        visibility={com.visibility}
                                         handleChange={handleChange}
                                     />
-                                    <ModifyComment
-                                        commentId={com.id}
-                                        handleModif={handleModif}
-                                    />
-                                </>
-                            }
-                            {moderate === "mod" &&
-                                <HideComment
-                                    commentId={com.id}
-                                    visibility={com.visibility}
-                                    handleChange={handleChange}
-                                />
-                            }
-                        </div>
-                        <div className="commentInfos">
-                            <p>{com.fullName}</p>
-                            <p> {com.date}</p>
-                        </div>
-                    </header>
-                    {
-                        modif.modif && modif.id === com.id ?
-                            <CommentToModify value={com.comment_content} commentId={com.id} handleModif={handleModif} />
-                            :
-                            <div className="commentContent">
-                                {com.comment_content}
+                                }
                             </div>
-                    }
-                </article>
-            )}
-
-        </section>
+                            <div className="commentInfos">
+                                <p>{com.fullName}</p>
+                                <p> {com.date}</p>
+                            </div>
+                        </header>
+                        {
+                            modif.modif && modif.id === com.id ?
+                                <CommentToModify
+                                    value={com.comment_content}
+                                    commentId={com.id}
+                                    handleModif={handleModif}
+                                />
+                                :
+                                <div className="commentContent">
+                                    {com.comment_content}
+                                </div>
+                        }
+                    </article>
+                )}
+            </section>
     )
 }
 

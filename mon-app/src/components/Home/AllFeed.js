@@ -13,6 +13,7 @@ const ArticleFeed = () => {
     const [loading, setLoading] = useState(true)
     let [pageNumber, setPageNumber] = useState(1)
     const [hasMore, setHasMore] = useState(false)
+    const [error, setError] = useState("")
 
     useEffect(() => {
         setLoading(true)
@@ -33,7 +34,14 @@ const ArticleFeed = () => {
                         setHasMore(res.data.result.length > 0)
                     }
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    try {
+                        if (!err.response) return setError("Connexion avec le serveur perdu. Vérifiez votre accès réseau")
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                })
         };
         allCategoryFeed()
         setLoading(false)
@@ -47,46 +55,48 @@ const ArticleFeed = () => {
             if (entries[0].isIntersecting && hasMore) setPageNumber(prevPageNumber => prevPageNumber + 1)
         })
         if (element) observer.current.observe(element)
-
     }, [hasMore])
 
+
+console.log(feed)
+
+    if (loading) return <Loader />
+
     return (
-
-        loading ? <Loader /> :
-            <section className="col-12 feedSection">
-
-                {feed.map((elt, index) =>
-                    <article
-                        ref={lastAllRef}
-                        key={elt.id}
-                        value={elt.id}
-                        className={`col-12 col-md-9 col-lg-6 posts`}
-                        style={
-                            { display: (elt.visibility === 1 || see === elt.id_author || moderate === "mod") ? "block" : "none", background: elt.visibility === 2 && "grey" }
-                        }>
-                        <div className="col-12 postThings" >
-                            <div className="col-12 postInfos">
-                                <Link to={`/post/${elt.id_author}`}><p className="postAuthor">{elt.fullName}</p></Link>
-                                <p>{elt.date}</p>
+        <section className="col-12 feedSection">
+            {error && <div className="errorDiv">{error}</div>}
+            {feed.map((elt) =>
+                <article
+                    ref={lastAllRef}
+                    key={elt.id}
+                    value={elt.id}
+                    className={`col-12 col-md-9 col-lg-6 posts`}
+                    style={
+                        { display: (elt.visibility === 1 || see === elt.id_author || moderate === "mod") ? "block" : "none", background: elt.visibility === 2 && "grey" }
+                    }>
+                    <div className="col-12 postThings" >
+                        <div className="col-12 postInfos">
+                            <Link to={`/post/${elt.id_author}`}><p className="postAuthor">{elt.fullName}</p></Link>
+                            <p>{elt.date}</p>
+                        </div>
+                    </div>
+                    <Link to={`/home/${elt.id}`}>
+                        <div className="col-12 postBody">
+                            <div className="postTitle">
+                                {elt.title}
+                            </div>
+                            <div className="postContent">
+                                {elt.media !== null &&
+                                    <ImageFeed value={elt.media} valueAlt={elt.title} />}
+                                {elt.content !== null &&
+                                    elt.content}
                             </div>
                         </div>
-                        <Link to={`/home/${elt.id}`}>
-                            <div className="col-12 postBody">
-                                <div className="postTitle">
-                                    {elt.title}
-                                </div>
-                                <div className="postContent">
-                                    {elt.media !== null &&
-                                        <ImageFeed value={elt.media} valueAlt={elt.title} />}
-                                    {elt.content !== null &&
-                                        elt.content}
-                                </div>
-                            </div>
-                            <CommentView commentsNb={elt.comments_number} className="commentView" />
-                        </Link>
-                    </article>
-                )}
-            </section>
+                        <CommentView commentsNb={elt.comments_number} className="commentView" />
+                    </Link>
+                </article>
+            )}
+        </section>
     )
 }
 

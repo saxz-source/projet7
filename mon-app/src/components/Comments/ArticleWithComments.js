@@ -6,7 +6,7 @@ import HidePost from "../Home/handleButtons/HidePost";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../Loader';
-import Error from '../Error';
+import Error from '../Error/Error404';
 import Comments from './Comments'
 
 const ArticleWhithComments = (props) => {
@@ -19,6 +19,7 @@ const ArticleWhithComments = (props) => {
     const [redirect, setRedirect] = useState(false)
     const [modif, setModif] = useState(false)
     const [error, setError] = useState("")
+    const [errorServer, setErrorServer] = useState("")
 
     const handleModif = () => {
         setModif(!modif)
@@ -53,9 +54,14 @@ const ArticleWhithComments = (props) => {
                     setModerate(res.data.role)
                 }
             })
-            .catch((res) => {
-                console.log(res.response.status)
-                if (res.response.status === 404) setError(404)
+            .catch((err) => {
+                try {
+                    if (!err.response) return setErrorServer("Connexion avec le serveur perdu. Vérifiez votre accès réseau")
+                    if (err.response.status === 404) setError(404)
+                }
+                catch (e) {
+                    console.log(e)
+                }
             })
         setLoading(false)
     }, [modif, props.articleId])
@@ -118,7 +124,6 @@ const ArticleWhithComments = (props) => {
                                     {art.content !== null && art.content}
                                 </div>
                             </div>
-
                         </article>
                         {openModal &&
                             <ArticleModifyModal
@@ -133,8 +138,10 @@ const ArticleWhithComments = (props) => {
                     </div>
                 )}
             </section>
-
-            <Comments articleId={props.articleId} />
+            {errorServer ?
+                <div className="errorDiv">{error}</div>
+                :
+                <Comments articleId={props.articleId} />}
         </main>
     )
 }

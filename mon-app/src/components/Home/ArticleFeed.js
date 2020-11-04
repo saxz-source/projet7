@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import CommentView from "../Home/CommentView";
 import ImageFeed from './ImageFeed';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import API from "../../utils/Api";
 import Loader from "../Loader"
 
@@ -13,6 +13,7 @@ const ArticleFeed = () => {
     const [loading, setLoading] = useState(true)
     let [pageNumber, setPageNumber] = useState(1)
     const [hasMore, setHasMore] = useState(false)
+    const [error, setError] = useState("")
 
 
     useEffect(() => {
@@ -34,7 +35,14 @@ const ArticleFeed = () => {
                         setHasMore(res.data.result.length > 0)
                     }
                 })
-                .catch(() => console.log("upload raté"))
+                .catch((err) => {
+                    try {
+                        if (!err.response) return setError("Connexion avec le serveur perdu. Vérifiez votre accès réseau")
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                })
         };
         articleCategoryFeed()
         setLoading(false)
@@ -55,7 +63,7 @@ const ArticleFeed = () => {
 
         loading ? <Loader /> :
             <section className="col-12 feedSection">
-
+                {error && <div className="errorDiv">{error}</div>}
                 {feed.map((elt) =>
                     <article
                         ref={lastArticleRef}
