@@ -7,8 +7,8 @@ import Loader from "../Loader"
 
 const ArticleFeed = () => {
 
-    const [feed, setFeed] = useState([]);
-    const [see, setSee] = useState("");
+    const [feed, setFeed] = useState([])
+    const [see, setSee] = useState("")
     const [moderate, setModerate] = useState("")
     const [loading, setLoading] = useState(true)
     let [pageNumber, setPageNumber] = useState(1)
@@ -17,7 +17,6 @@ const ArticleFeed = () => {
 
     useEffect(() => {
         setLoading(true)
-
         const allCategoryFeed = () => {
             API({
                 url: "/posts",
@@ -47,7 +46,6 @@ const ArticleFeed = () => {
         setLoading(false)
     }, [pageNumber])
 
-
     const observer = useRef()
     const lastAllRef = useCallback(element => {
         if (observer.current) observer.current.disconnect()
@@ -58,11 +56,8 @@ const ArticleFeed = () => {
     }, [hasMore])
 
 
-console.log(feed)
-
-    if (loading) return <Loader />
-
     return (
+        loading ? <Loader /> :
         <section className="col-12 feedSection">
             {error && <div className="errorDiv">{error}</div>}
             {feed.map((elt) =>

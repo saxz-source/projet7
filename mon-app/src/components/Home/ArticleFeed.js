@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import CommentView from "../Home/CommentView";
 import ImageFeed from './ImageFeed';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import API from "../../utils/Api";
 import Loader from "../Loader"
 

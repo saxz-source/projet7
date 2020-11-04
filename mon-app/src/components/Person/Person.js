@@ -59,7 +59,6 @@ const Person = (props) => {
         if (element) observer.current.observe(element)
     }, [hasMore])
 
-    console.log(personArray)
 
     if (error === 404) return <Error />
     return (
