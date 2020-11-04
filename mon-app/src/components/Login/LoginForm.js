@@ -20,7 +20,6 @@ const LoginForm = () => {
         const payload = {
             ...state
         }
-        console.log(state)
         API({
             url: "/auth/login",
             method: "POST",
