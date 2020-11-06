@@ -57,7 +57,7 @@ const SignUpForm = () => {
 
         loggedIn ? <Redirect to="/home" /> :
 
-            <Form noValidate validated={validated} onSubmit={handleSubmit} className="form col-8 col-md-6">
+            <Form noValidate validated={validated} onSubmit={handleSubmit} className="form col-11 col-md-6">
                 <Form.Group controlId="validationCustom01">
                     <Form.Label>Votre email</Form.Label>
                     <Form.Control type="email" value={user.email} name="email" onChange={handleEmail} pattern=".+@.+\.[a-z]+" maxLength="50" required />

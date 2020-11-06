@@ -101,7 +101,7 @@ exports.login = async (req, res, next) => {
 // Déconnexion route GET
 exports.logout = async (req, res) => {
   let cookieOptions = {
-    expires: new Date(Date.now() + 10000),
+    expires: new Date(Date.now() + 3000),
     secure: process.env.NODE_ENV === "production" ? true : false,
     httpOnly: process.env.NODE_ENV === "production" ? true : false,
   }
@@ -149,6 +149,12 @@ exports.modifyUser = (req, res) => {
 exports.deleteUser = (req, res) => {
   db.query("DELETE FROM users WHERE id = ?", [req.user], (error, result) => {
     try {
+      let cookieOptions = {
+        expires: new Date(Date.now() + 3000),
+        secure: process.env.NODE_ENV === "production" ? true : false,
+        httpOnly: process.env.NODE_ENV === "production" ? true : false,
+      }
+      res.cookie('jwt', 'expiredtoken', cookieOptions);
       res.status(200).json({ message: "user supprimé" })
     } catch {
       res.status(400).json({ error });

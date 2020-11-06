@@ -1,6 +1,6 @@
 {
     "dev": {
-        "host": "localhost",
+        "host": {"ENV" : "DATABASE"},
         "user": {"ENV" : "DATABASE_U"},
         "password": {"ENV" : "DATABASE_P"},
         "database": "groupomania",

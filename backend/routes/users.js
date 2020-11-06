@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usersCtrl = require('../controllers/users');
 const secure = require("../middleware/secure")
-const { body } = require('express-validator');
 const limitLogin = require('../middleware/limitLogin');
-
 
 
 router.post('/signup', usersCtrl.signup);
