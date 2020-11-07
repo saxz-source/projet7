@@ -1,8 +1,8 @@
 {
     "dev": {
         "host": "localhost",
-        "user": "root",
-        "password": "lala",
+        "user": "remplir ici",
+        "password": "remplir ici",
         "database": "groupomania",
         "driver": "mysql",
         "multipleStatements": true
