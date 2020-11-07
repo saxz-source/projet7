@@ -27,7 +27,7 @@ Créer une base de données sql dédiée (vous pouvez la nommer groupomania pour
 
 Connecter sa base de données en remplissant le fichier '.env' (nom de la base de données, utilisateur, mot de passe) situé dans le dossier backend.
 
-Pour effectuer la migration de la base de données, et donc charger ses tables, veuillez reporter ces mêmes informations de connexion sql dans le fichier "database.json" situé dans le dossier backend/_Databse.
+Pour effectuer la migration de la base de données, et donc charger ses tables, veuillez reporter ces mêmes informations de connexion dans le fichier "database.json" situé dans le dossier backend/_Database.
 
 Accéder au dossier _Database situé dans le backend : cd _Database.
 
