@@ -16,18 +16,14 @@ const DeleteComment = (props) => {
       operation: "decrement",
       id_post: props.articleId,
       comments_number: props.commentsNb
-
     }
 
     Api({
       url: "posts",
       method: "PUT",
       data: payloadPut
-    }).then(
-      props.handleChange()
-    )
+    }).then()
       .catch()
-
 
     Api({
       url: "posts/comment",
@@ -42,7 +38,7 @@ const DeleteComment = (props) => {
 
   return (
     <button onClick={handleDeleteComment} className="iconButton">
-      <FontAwesomeIcon icon={faTrashAlt}  />
+      <FontAwesomeIcon icon={faTrashAlt} />
     </button>
   )
 }

@@ -1,8 +1,8 @@
 {
     "dev": {
-        "host": {"ENV" : "DATABASE"},
-        "user": {"ENV" : "DATABASE_U"},
-        "password": {"ENV" : "DATABASE_P"},
+        "host": "localhost",
+        "user": "root",
+        "password": "lala",
         "database": "groupomania",
         "driver": "mysql",
         "multipleStatements": true

@@ -118,7 +118,7 @@ exports.getPersonPost = (req, res) => {
     let offset = (pageNumber - 1) * 10
     db.query("SELECT posts.id, posts.id_author, DATE_FORMAT(posts.date, '%d/%m/%y, %H:%i') AS date, posts.title, posts.content, posts.media, posts.comments_number, posts.visibility, users.fullName FROM posts INNER JOIN users ON posts.id_author = users.id WHERE id_author = ? ORDER BY date DESC LIMIT ? OFFSET ?", [req.params.id, limit, offset], (error, result) => {
         if (error) res.status(400).json({ message: error })
-        if (result.length<1) return
+        if (result.length<1) return res.status(200).json({ message: "pas de publications supplémentaires à afficher" })
         let userId = req.user;
         let role = req.role;
         res.status(200).json({ result, userId, role })

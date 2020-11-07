@@ -27,7 +27,7 @@ const Person = (props) => {
                 params: { page: pageNumber }
             })
                 .then((res) => {
-                    if (res.status === 200) {
+                    if (res.status === 200 && res.data.result) {
                         setPersonArray(prevPersonArray => {
                             return [...new Set([...prevPersonArray, ...res.data.result])]
                         })
@@ -71,11 +71,19 @@ const Person = (props) => {
                         key={elt.id}
                         className={`col-11 col-md-8 col-lg-6 posts`}
                         style={
-                            { display: (elt.visibility === 1 || see === elt.id_author || moderate === "mod") ? "block" : "none", background: elt.visibility === 2 && "grey" }
+                            {
+                                display: (elt.visibility === 1
+                                    || see === elt.id_author
+                                    || moderate === "mod")
+                                    ? "block"
+                                    : "none", background: elt.visibility === 2 && "grey"
+                            }
                         }>
                         <div className="col-12 postThings" >
                             <div className="col-12 postInfos">
-                                <Link to={`/post/${elt.id_author}`}><p>{elt.fullName}</p></Link>
+                                <Link to={`/post/${elt.id_author}`}>
+                                    <p>{elt.fullName}</p>
+                                </Link>
                                 <p>{elt.date}</p>
                             </div>
                         </div>
